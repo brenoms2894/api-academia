@@ -46,10 +46,20 @@ public class TurmaController {
 		return new ResponseEntity<>(turmaService.saveTurma(turma), HttpStatus.CREATED);
 	}
 
-	@PutMapping
+	/*@PutMapping
 	public ResponseEntity<Turma> updateTurma(@RequestBody Turma turma) {
 		return new ResponseEntity<>(turmaService.updateTurma(turma), HttpStatus.OK);
-	}
+	}*/
+	@PutMapping
+    public ResponseEntity<Turma> update(@RequestBody Turma turma) {
+    	Turma turmaFound = turmaService.findTurmaById(turma.getIdTurma());
+    	if (turmaFound == null) {
+    		throw new NoSuchElementFoundException("Não foi encontrada a Turma com o id " + turma.getIdTurma());
+        }
+        else {
+        	return new ResponseEntity<>(turmaService.updateTurma(turma), HttpStatus.OK);
+        } 		
+    }
 
 	@DeleteMapping
 	public ResponseEntity<String> deleteTurmaComConferencia(@PathVariable Integer id) {

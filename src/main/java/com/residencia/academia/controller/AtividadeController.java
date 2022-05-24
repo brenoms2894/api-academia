@@ -45,10 +45,21 @@ public class AtividadeController {
 		return new ResponseEntity<>(atividadeService.saveAtividade(atividade), HttpStatus.CREATED);
 	}
 
-	@PutMapping
+	/*@PutMapping
 	public ResponseEntity<Atividade> updateAtividade(@RequestBody Atividade atividade) {
 		return new ResponseEntity<>(atividadeService.updateAtividade(atividade), HttpStatus.OK);
-	}
+	}*/
+	@PutMapping
+    public ResponseEntity<Atividade> update(@RequestBody Atividade atividade) {
+    	Atividade atividadeFound = atividadeService.findAtividadeById(atividade.getIdAtividade());
+    	if (atividadeFound == null) {
+    		throw new NoSuchElementFoundException("Não foi encontrado o Atividade com o id " + atividade.getIdAtividade());
+        }
+        else {
+        	Atividade novoAtividade = atividadeService.updateAtividade(atividade);
+    		return new ResponseEntity<>(novoAtividade, HttpStatus.OK);
+        }     	
+    }
 
 	@DeleteMapping
 	public ResponseEntity<String> deleteAtividadeComConferencia(@PathVariable Integer id) {

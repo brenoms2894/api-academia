@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.residencia.academia.entity.Instrutor;
 import com.residencia.academia.exception.InstrutorNotFoundException;
+import com.residencia.academia.exception.NoSuchElementFoundException;
 import com.residencia.academia.service.InstrutorService;
 
 @RestController
@@ -48,11 +49,22 @@ public class InstrutorController {
 		return new ResponseEntity<>(novoInstrutor, HttpStatus.CREATED);
 	}
 
-	@PutMapping
+	/*@PutMapping
 	public ResponseEntity<Instrutor> updateInstrutor(@RequestBody Instrutor instrutor) {
 		Instrutor novoInstrutor = instrutorService.updateInstrutor(instrutor);
 		return new ResponseEntity<>(novoInstrutor, HttpStatus.OK);
-	}
+	}*/
+	@PutMapping
+    public ResponseEntity<Instrutor> update(@RequestBody Instrutor instrutor) {
+    	Instrutor instrutorFound = instrutorService.findInstrutorById(instrutor.getIdInstrutor());
+    	if (instrutorFound == null) {
+    		throw new NoSuchElementFoundException("Não foi encontrado o Instrutor com o id " + instrutor.getIdInstrutor());
+        }
+        else {
+        	Instrutor novoInstrutor = instrutorService.updateInstrutor(instrutor);
+    		return new ResponseEntity<>(novoInstrutor, HttpStatus.OK);
+        }     	
+    }
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteInstrutor(@PathVariable Integer id) {
