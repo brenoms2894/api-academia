@@ -12,15 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "instrutor")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "idInstrutor")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idInstrutor")
 
 public class Instrutor {
 
@@ -42,17 +38,11 @@ public class Instrutor {
 	private Integer titulacaoInstrutor;
 
 	@OneToMany(mappedBy = "instrutor")
-	//@JsonManagedReference
-	//@JsonIgnore
+	// @JsonManagedReference
+	// @JsonIgnore
 	private List<Turma> turmaList;
-	
-	
-	
-	public List<Turma> getTurmaList() {
-		return turmaList;
-	}
 
-	public void setTurmaList(List<Turma> turmaList) {
+		public void setTurmaList(List<Turma> turmaList) {
 		this.turmaList = turmaList;
 	}
 
@@ -96,4 +86,7 @@ public class Instrutor {
 		this.titulacaoInstrutor = titulacaoInstrutor;
 	}
 
+	public List<Turma> getTurmaList() {
+		return turmaList;
+	}
 }

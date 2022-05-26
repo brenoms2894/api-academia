@@ -1,52 +1,18 @@
-package com.residencia.academia.entity;
+package com.residencia.academia.dto;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.residencia.academia.entity.Atividade;
+import com.residencia.academia.entity.Instrutor;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-@Entity
-@Table(name = "turma")
-@JsonIdentityInfo(
-	    generator = ObjectIdGenerators.PropertyGenerator.class,
-	    property = "idTurma")
-public class Turma {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_turma")
+public class TurmaDTO {
 	private Integer idTurma;
-
-	@Column(name = "horario")
 	private Date horarioTurma;
-
-	@Column(name = "duracao")
 	private Integer duracaoTurma;
-
-	@Column(name = "data_inicio")
 	private Date dataInicio;
-
-	@Column(name = "data_fim")
 	private Date dataFim;
 
-	@ManyToOne
-	@JsonBackReference
-	//@JsonIgnore
-	@JoinColumn(name = "id_instrutor", referencedColumnName = "id_instrutor")
 	private Instrutor instrutor;
-
-	@ManyToOne
-	@JoinColumn(name = "id_atividade", referencedColumnName = "id_atividade")
 	private Atividade atividade;
 
 	public Integer getIdTurma() {
@@ -104,6 +70,13 @@ public class Turma {
 	public void setAtividade(Atividade atividade) {
 		this.atividade = atividade;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "TurmaDTO [idTurma=" + idTurma + ", horarioTurma=" + horarioTurma + ", duracaoTurma=" + duracaoTurma
+				+ ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + "]";
+	}
+
+
+
 }

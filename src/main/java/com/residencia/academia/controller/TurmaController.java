@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.academia.dto.TurmaDTO;
 import com.residencia.academia.entity.Turma;
 import com.residencia.academia.exception.NoSuchElementFoundException;
 import com.residencia.academia.exception.TurmaNotFoundException;
@@ -41,53 +42,60 @@ public class TurmaController {
 			return new ResponseEntity<>(turmaService.findTurmaById(id), HttpStatus.OK);
 	}
 
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<TurmaDTO> findTurmaDTOById(@PathVariable Integer id) {
+		TurmaDTO turmaDTO = turmaService.findTurmaDTOById(id);
+		if (turmaDTO == null) {
+			throw new NoSuchElementFoundException("Não foi encontrado a Turma com o id " + id);
+		} else {
+			return new ResponseEntity<>(turmaDTO, HttpStatus.OK);
+		}
+
+	}
+
 	@PostMapping
 	public ResponseEntity<Turma> saveTurma(@RequestBody Turma turma) {
 		return new ResponseEntity<>(turmaService.saveTurma(turma), HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/dto")
+	public ResponseEntity<Turma> saveTurmaDTO(@RequestBody TurmaDTO turmaDTO) {
+			return new ResponseEntity<>(turmaService.saveTurmaDTO(turmaDTO), HttpStatus.OK);
+	}
 
-	/*@PutMapping
-	public ResponseEntity<Turma> updateTurma(@RequestBody Turma turma) {
-		return new ResponseEntity<>(turmaService.updateTurma(turma), HttpStatus.OK);
-	}*/
+	/*
+	 * @PutMapping public ResponseEntity<Turma> updateTurma(@RequestBody Turma
+	 * turma) { return new ResponseEntity<>(turmaService.updateTurma(turma),
+	 * HttpStatus.OK); }
+	 */
 	@PutMapping
-    public ResponseEntity<Turma> update(@RequestBody Turma turma) {
-    	Turma turmaFound = turmaService.findTurmaById(turma.getIdTurma());
-    	if (turmaFound == null) {
-    		throw new NoSuchElementFoundException("Não foi encontrada a Turma com o id " + turma.getIdTurma());
-        }
-        else {
-        	return new ResponseEntity<>(turmaService.updateTurma(turma), HttpStatus.OK);
-        } 		
-    }
+	public ResponseEntity<Turma> update(@RequestBody Turma turma) {
+		Turma turmaFound = turmaService.findTurmaById(turma.getIdTurma());
+		if (turmaFound == null) {
+			throw new NoSuchElementFoundException("Não foi encontrada a Turma com o id " + turma.getIdTurma());
+		} else {
+			return new ResponseEntity<>(turmaService.updateTurma(turma), HttpStatus.OK);
+		}
+	}
 
 	@DeleteMapping
 	public ResponseEntity<String> deleteTurmaComConferencia(@PathVariable Integer id) {
 		Turma turma = turmaService.findTurmaById(id);
-		if(null==turma)
-			throw new NoSuchElementFoundException("Não foi possivel excluir a turma, "
-					+ "pois não foi "
-					+ "encontrada uma turma com o id: " + id);
+		if (null == turma)
+			throw new NoSuchElementFoundException(
+					"Não foi possivel excluir a turma, " + "pois não foi " + "encontrada uma turma com o id: " + id);
 		turmaService.deleteTurma(id);
 		return new ResponseEntity<>("", HttpStatus.OK);
 	}
+
 	/*
-	@DeleteMapping
-	public ResponseEntity<String> deleteTurmaComConferencia(@PathVariable Integer id) {
-		Boolean verificacao = turmaService.deleteTurmaComConferencia(id);
-		
-		if (verificacao)
-			return new ResponseEntity<>("", HttpStatus.OK);
-		else
-			throw new NoSuchElementFoundException("Não foi possível excluir a Turma, "
-					+ "pois não foi "
-					+ "encontrada uma turma com id " + id);
-	}
-	*/
-	@ExceptionHandler(TurmaNotFoundException.class)
-	public ResponseEntity<String> handleNoInstrutorFoundException(TurmaNotFoundException exception) {
-		return ResponseEntity
-				.status(HttpStatus.BAD_REQUEST)
-				.body(exception.getErrMsg());
-	}
+	 * @DeleteMapping public ResponseEntity<String>
+	 * deleteTurmaComConferencia(@PathVariable Integer id) { Boolean verificacao =
+	 * turmaService.deleteTurmaComConferencia(id);
+	 * 
+	 * if (verificacao) return new ResponseEntity<>("", HttpStatus.OK); else throw
+	 * new NoSuchElementFoundException("Não foi possível excluir a Turma, " +
+	 * "pois não foi " + "encontrada uma turma com id " + id); }
+	 */
+	
 }

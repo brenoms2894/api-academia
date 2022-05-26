@@ -1,14 +1,13 @@
 package com.residencia.academia.entity;
 
-import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,13 +25,12 @@ public class Atividade {
 	private Integer idAtividade;
 
 	@Column(name = "nome")
-	private Date horarioAtividade;
+	private String nomeAtividade;
 
-	@ManyToOne
 	@JsonBackReference
 	// @JsonIgnore
-	@JoinColumn(name = "id_turma", referencedColumnName = "id_turma")
-	private Turma turma;
+	@OneToMany(mappedBy="atividade")
+	private List<Turma> listaTurmas;
 
 	public Integer getIdAtividade() {
 		return idAtividade;
@@ -42,20 +40,20 @@ public class Atividade {
 		this.idAtividade = idAtividade;
 	}
 
-	public Date getHorarioAtividade() {
-		return horarioAtividade;
+	public String getNomeAtividade() {
+		return nomeAtividade;
 	}
 
-	public void setHorarioAtividade(Date horarioAtividade) {
-		this.horarioAtividade = horarioAtividade;
+	public void setNomeAtividade(String nomeAtividade) {
+		this.nomeAtividade = nomeAtividade;
 	}
 
-	public Turma getTurma() {
-		return turma;
+	public List<Turma> getListaTurmas() {
+		return listaTurmas;
 	}
 
-	public void setTurma(Turma turma) {
-		this.turma = turma;
+	public void setListaTurmas(List<Turma> listaTurmas) {
+		this.listaTurmas = listaTurmas;
 	}
 
 }

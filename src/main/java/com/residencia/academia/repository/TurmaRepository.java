@@ -1,7 +1,5 @@
 package com.residencia.academia.repository;
 
-import java.util.Date;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.residencia.academia.entity.Turma;
